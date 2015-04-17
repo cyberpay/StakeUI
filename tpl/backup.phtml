@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-6">
+    <a class="btn btn-success" href="/backup/current" role="button">Backup now</a> <a class="btn btn-primary" href="/downloadBackup/0" role="button">Download</a> <a class="btn btn-danger" href="/deleteBackup/0" role="button">Delete all</a>
+    <br /><small>If you wish to download the newest backup, then click 'download', when using 'download' the backup will always be newly created. Note: When using 'download', the backup file will not be saved, but instead available for instant download.<br />
+    'Backup now' will also create a new backup of your wallet.dat file, but will not download it, instead save it to your saved backups.<br />
+    Click 'Delete all', to delete the whole libary of backups. (can't be undone)</small>
+  </div>
+  <div class="col-md-6">
+  <?php if(isset($backups)) { ?>
+    <table class='table-striped table-bordered table'>
+        <thead><tr><th>Created</th><th>Size</th><th></th></tr></thead>
+        <?php foreach ($backups as $filename)  { ?>
+            <tr><td><?php echo date("F j, Y, g:i A",$filename['created']); ?></td><td><?php echo $filename['size']; ?></td><td><a class="btn btn-success btn-xs" href="/downloadBackup/<?php echo $filename['name']; ?>">Download</a> <a class="btn btn-danger btn-xs" href="/deleteBackup/<?php echo $filename['name']; ?>">Delete</a></td></tr>
+        <?php } ?>
+    </table>
+    <?php } ?>
+  </div>
+</div>
+<hr />

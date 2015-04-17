@@ -1,0 +1,8 @@
+  <?php if(Flight::get('getinfo')['connections']) { ?>
+    <table class='table-striped table-bordered table table-hover'>
+        <thead><tr><th>Address</th><th>Sent</th><th>Received</th><th>Version</th><th>Starting height</th><th>Connected</th></tr></thead>
+        <?php foreach (Flight::reddcoin()->getpeerinfo() as $peer)  { ?>
+            <tr><td><?php echo $peer['addr']; ?></td><td><?php echo Flight::controller()->formatSizeUnits($peer['bytessent']); ?> <small>(<?php echo Flight::controller()->humanTiming($peer['lastsend']); ?>)</small></td><td><?php echo Flight::controller()->formatSizeUnits($peer['bytesrecv']); ?> <small>(<?php echo Flight::controller()->humanTiming($peer['lastrecv']); ?>)</small></td><td><?php echo $peer['version']; ?> <small>(<?php echo str_replace("/","",$peer['subver']); ?>)</small></td><td><?php echo $peer['startingheight']; ?></td><td><?php echo Flight::controller()->humanTiming($peer['conntime']); ?></td></tr>
+        <?php } ?>
+    </table>
+    <?php } ?>

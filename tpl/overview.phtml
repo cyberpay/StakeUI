@@ -1,0 +1,112 @@
+      <div class="page-header">
+      <h3>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="col-md-6 text-center">
+                Balance: <?php echo number_format(Flight::get('getinfo')['balance'], 2); ?> <small>(<?php echo Flight::get('balancecalc'); ?>)</small>
+            </div>
+            <div class="col-md-6 text-center">
+                Stake: <?php echo number_format(Flight::get('getinfo')['stake'], 2); ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-6 text-center">
+                Interest: <?php echo number_format(Flight::get('interest'), 2); ?> <small>(<?php echo Flight::get('interestcalc'); ?>)</small>
+            </div>
+            <div class="col-md-6 text-center">
+                Unconfirmed: <?php echo number_format(Flight::get('getinfo')['unconfirmedbalance'],2); ?>
+            </div>
+        </div>
+      </div>
+      
+      </h3>
+      <?php if (Flight::get('getstaking')['staking']) { ?>
+        <hr />
+        <h4>
+        <?php if (!is_null(Flight::get('chart'))) { ?>
+        <div id="chartContainer" class="chartContainer" style="height: 300px; width: 100%;"></div>
+        <div class="row">
+            <div class="col-md-8 text-center">Expected to earn interest every: <?php echo Flight::get('expected');?></div>
+            <div class="col-md-4">
+                <form action="/overview" method="POST">
+                    <div class="row">
+                        <div class="col-xs-5 pull-right">
+                            <select class="form-control input-sm" name="chart" onchange="this.form.submit()">
+                                <option value="totalweight" <?php if(Flight::get('chartSelect') == 'totalweight') { echo "selected=\"\""; } ?>>Total Weight</option>
+                                <option value="averageweight" <?php if(Flight::get('chartSelect') == 'averageweight') { echo "selected=\"\""; } ?>>Average Weight</option>
+                                <option value="netstakeweight" <?php if(Flight::get('chartSelect') == 'netstakeweight') { echo "selected=\"\""; } ?>>Netstake Weight</option>
+                                <option value="interest" <?php if(Flight::get('chartSelect') == 'interest') { echo "selected=\"\""; } ?>>Interest</option>
+                                <option value="balance" <?php if(Flight::get('chartSelect') == 'balance') { echo "selected=\"\""; } ?>>Balance</option>
+                                <option value="connections" <?php if(Flight::get('chartSelect') == 'connections') { echo "selected=\"\""; } ?>>Connections</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <?php } else { ?>
+        <div class="text-center">
+            Expected to earn interest every: <?php echo Flight::get('expected');?>
+        </div>
+        <?php } ?>
+        </h4>
+      <?php } ?>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+        <div class="alert alert-success text-center" role="alert">You own <strong><?php echo Flight::get('moneysupplyproc'); ?>%</strong> of the total money supply!<br />
+        Your total weight is <strong><?php echo Flight::get('totalweightproc'); ?>%</strong> of the network &amp; your average weight is <strong><?php echo Flight::get('averageweight'); ?>%</strong> of your total weight!<br />
+        <strong><?php echo Flight::get('interestproc'); ?>%</strong> of your balance is from interest!</div>
+        <hr />
+        <h3>Shortcuts</h3>
+        <a class="btn btn-primary" href="/myaccounts" role="button">My accounts</a> <a class="btn btn-success" href="/backup" role="button">Backup</a> <a class="btn btn-warning" href="/address/Default" role="button">New address</a><?php if (!is_null(Flight::get('chart'))) { ?> <a class="btn btn-danger" href="/stats" role="button">Run stats now</a><?php } ?>
+        <hr />
+        <h3>Daemon Info</h3>
+        <table class="table-striped table-bordered table table-hover">
+    	   <thead>
+    		  <tr>
+    			<th>Key</th>
+    			<th>Value</th>
+    		  </tr>
+    	   </thead>
+    	   <tbody>
+            <?php foreach (Flight::get('getinfo') as $key => $val){ if (!empty($val)) { ?>
+		          <tr><td><?php echo $key; ?></td><td><?php echo $val; ?></td></tr>
+            <?php } } ?>
+    	   </tbody>
+        </table>
+        
+        </div>
+        <div class="col-md-6">
+        <h3>Latest Transactions</h3>
+        <?php if(Flight::get('txCount') != 0) { ?>
+            <table class='table-striped table-bordered table table-hover'>
+                <thead><tr><th>Account</th><th>Method</th><th>Amount</th><th>Confirms</th><th>Received</th></tr></thead>
+                <?php foreach(Flight::get('transactions') as $tx) { $c = ($tx['amount'] > 0) ? 'green': 'red'; ?>
+                    <tr><td><?php echo ($tx['account'] != '') ? $tx['account'] : 'Default'; ?></td><td style="color: <?php echo $c; ?>;"><?php echo $tx['category']; ?></td><td><?php echo number_format($tx['amount'],3); ?> &#588; <small>(<span style="color: <?php echo $c ?>;"><?php echo number_format($tx['amount']*$_SESSION['reddex'][Flight::get('currency')],8); ?></span>)</small></td><td><?php echo (isset($tx['confirmations'])) ? $tx['confirmations'] : '<span style="color: red;" class="glyphicon glyphicon-remove" aria-hidden="true"></span>'; ?></td><td><?php echo Flight::controller()->humanTiming($tx['time']); ?></td></tr>
+                <?php } ?>
+            </table>
+            <?php if(Flight::get('txCount') == 10) { ?>
+                <a class="btn btn-primary btn-block btn-sm" href="/transactions" role="button">More <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></a>
+        <?php } } else { ?>
+            <div class="alert alert-danger text-center" role="alert">No transactions to show yet!</div>
+        <?php } ?>
+      
+        <hr />
+        <h3>Staking Info</h3>
+        <table class="table-striped table-bordered table table-hover">
+    	   <thead>
+    		  <tr>
+    			<th>Key</th>
+    			<th>Value</th>
+    		  </tr>
+    	   </thead>
+    	   <tbody>
+            <?php foreach (Flight::get('getstaking') as $key => $val){ if (!empty($val)) { ?>
+		          <tr><td><?php echo $key; ?></td><td><?php echo $val; ?></td></tr>
+            <?php } } ?>
+    	   </tbody>
+        </table>
+          
+        </div>
+      </div>

@@ -1,0 +1,10 @@
+        <?php if(Flight::get('txCount') != 0) { ?>
+            <table class='table-striped table-bordered table table-hover'>
+                <thead><tr><th>Account</th><th>Method</th><th>Amount</th><th>Confirms</th><th>Received</th></tr></thead>
+                <?php foreach(Flight::get('transactions') as $tx) { $c = ($tx['amount'] > 0) ? 'green': 'red'; ?>
+                    <tr><td><?php echo ($tx['account'] != '') ? $tx['account'] : 'Default'; ?></td><td style="color: <?php echo $c; ?>;"><?php echo $tx['category']; ?></td><td><?php echo number_format($tx['amount'],3); ?> &#588; <small>(<span style="color: <?php echo $c ?>;"><?php echo number_format($tx['amount']*$_SESSION['reddex'][Flight::get('currency')],8); ?></span>)</small></td><td><?php echo (isset($tx['confirmations'])) ? $tx['confirmations'] : '<span style="color: red;" class="glyphicon glyphicon-remove" aria-hidden="true"></span>'; ?></td><td><?php echo Flight::controller()->humanTiming($tx['time']); ?></td></tr>
+                <?php } ?>
+            </table>
+        <?php } else { ?>
+            <div class="alert alert-danger text-center" role="alert">No transactions to show yet!</div>
+        <?php } ?>

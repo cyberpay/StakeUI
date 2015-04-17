@@ -1,0 +1,18 @@
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+            <div class="col-md-4"><p class="text-muted pull-left">StakeUI Version <?php echo VERS; ?> &copy; 2015 by <a href="https://www.reddcointalk.org/user/convertor">@Convertor</a></p></div>
+            <div class="col-md-4"><small><p class="text-muted text-center">Connected to <strong><a href="/peers"><?php echo Flight::get('getinfo')['connections']; ?></a></strong> P2P nodes with block height @ <strong><?php echo Flight::get('getinfo')['blocks']; ?></strong></p></small></div>
+            <div class="col-md-4"><p class="text-muted pull-right"><small>Loaded in <strong><?php echo round(microtime(true) - Flight::get('timestart'), 5); ?></strong> seconds </small>| Powered by <a href="https://reddex.tk">Reddex</a></p></div>
+        </div>
+        
+      </div>
+    </footer>
+
+    <script src="/tpl/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/tpl/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/tpl/js/canvasjs.min.js" type="text/javascript"></script>
+  </body>
+</html>
