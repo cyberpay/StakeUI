@@ -10,6 +10,8 @@ You can even see a nice graph over total weight, average weight, network weight,
 You'll also be able to see your current balances BTC value, pulled from [Reddex](https://reddex.tk)
 
 ###Install
+* mkdir app/db
+* mkdir app/backups
 * chmod 777 app/db
 * chmod 777 app/backups
 * Add cronjob (*/15 * * * * php /var/www/cron/index.php) That will make the cron rune very 15 minutes, which I've found enough, feel free to change it.
