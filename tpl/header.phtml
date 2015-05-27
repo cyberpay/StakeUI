@@ -29,7 +29,7 @@
         type: "splineArea",
         
         dataPoints: [
-        <?php foreach (Flight::get('chart') as $chart) { $chart['time'] = date('Y, m, d, H, i', $chart['time']);
+        <?php foreach (Flight::get('chart') as $chart) { $chart['time'] = date('Y, m, d, H, i', strtotime("-1 month", $chart['time']));
             echo "{ x: new Date({$chart['time']}), y: {$chart[Flight::get('chartSelect')]} },";
         } ?>
         ]
