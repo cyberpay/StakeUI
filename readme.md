@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/Reddhead-devs/StakeUI.png?label=ready&title=Ready)](https://waffle.io/Reddhead-devs/StakeUI)
 StakeUI
 =============
 
